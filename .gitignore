@@ -1,0 +1,9 @@
+# Mengabaikan folder raksasa
+node_modules/
+
+# Mengabaikan file rahasia (password database)
+.env
+
+# Mengabaikan folder hasil build Nuxt
+.nuxt/
+.output/
