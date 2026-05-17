@@ -17,7 +17,12 @@ const produkSchema = new mongoose.Schema({
   ketersediaan: {
     type: Boolean,
     default: true // true berarti stok ada/tersedia
+  },
+  // --- INI TAMBAHAN BARUNYA ---
+  gambar: {
+    type: String // Hanya menyimpan nama file gambarnya saja
   }
+  // ----------------------------
 }, { timestamps: true }); // Otomatis mencatat waktu kapan data dibuat/diupdate
 
 // Mengekspor model agar bisa dipakai di file lain
