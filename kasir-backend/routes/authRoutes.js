@@ -4,36 +4,45 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// 1. Ambil semua user (untuk dropdown login)
+// 1. Ambil semua user (untuk dropdown login jika diperlukan)
 router.get('/users', async (req, res) => {
   const users = await User.find().select('-password');
   res.json(users);
 });
 
-// 2. Registrasi User Baru (Hanya dipakai saat setup/admin)
-router.post('/register', async (req, res) => {
-  try {
-    const { nama, password, role } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const userBaru = new User({ nama, password: hashedPassword, role });
-    await userBaru.save();
-    res.status(201).json({ message: "User berhasil dibuat" });
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-// 3. Login
+// 2. Login (DIPERBAIKI: Menggunakan username, bukan nama)
 router.post('/login', async (req, res) => {
-  const { nama, password } = req.body;
-  const user = await User.findOne({ nama });
-  if (!user) return res.status(404).json({ message: "User tidak ditemukan" });
+  const { username, password } = req.body;
+  
+  // Cari berdasarkan username
+  const user = await User.findOne({ username });
+  if (!user) return res.status(404).json({ message: "Username tidak ditemukan" });
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) return res.status(400).json({ message: "Password salah" });
 
   const token = jwt.sign({ id: user._id, role: user.role }, 'RAHASIA_NEGARA', { expiresIn: '1d' });
-  res.json({ token, user: { nama: user.nama, role: user.role } });
+  res.json({ token, user: { nama: user.nama, username: user.username, role: user.role } });
+});
+
+// 3. FITUR BARU: Verifikasi Token & Cek Status Akun (Auto-Kick)
+router.get('/verify', async (req, res) => {
+  try {
+    // Tangkap tiket (token) yang dikirim oleh Frontend
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ message: "Tidak ada token" });
+
+    // Baca isi tiketnya
+    const decoded = jwt.verify(token, 'RAHASIA_NEGARA');
+    
+    // Cek ke buku induk (database), apakah orang ini masih ada?
+    const user = await User.findById(decoded.id);
+    if (!user) return res.status(401).json({ message: "Akun telah dihapus oleh Admin" });
+
+    res.json({ message: "Token valid dan Akun aktif" });
+  } catch (error) {
+    res.status(401).json({ message: "Sesi tidak valid atau telah kadaluarsa" });
+  }
 });
 
 module.exports = router;

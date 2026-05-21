@@ -13,15 +13,15 @@ app.use(express.json()); // Agar server bisa membaca format JSON
 // Mengizinkan frontend mengakses file di dalam folder 'uploads'
 app.use('/uploads', express.static('uploads'));
 
-// -- Routes produk dan transaksi --
+// -- Routes produk, transaksi, auth, dan user -- 
 const produkRoutes = require('./routes/produkRoutes');
 app.use('/api/produk', produkRoutes);
-
 const transaksiRoutes = require('./routes/transaksiRoutes');
 app.use('/api/transaksi', transaksiRoutes);
-// -----------------------------
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/users', userRoutes);
 
 // Menyambungkan ke MongoDB menggunakan Mongoose
 mongoose.connect(process.env.MONGODB_URI)

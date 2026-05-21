@@ -23,6 +23,11 @@ onMounted(() => {
   }
 });
 
+onMounted(() => {
+  // Setiap kali pindah menu atau refresh web, periksa apakah akun masih ada di Database!
+  authStore.periksaKeamanan()
+})
+
 // Fungsi untuk tombol hamburger
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
@@ -32,9 +37,7 @@ const prosesLogout = () => {
   authStore.logout();
 };
 
-const editProfil = () => {
-  alert("Fitur Edit Profil akan segera dibuat!");
-};
+// Catatan: Fungsi editProfil (alert) sudah saya hapus karena kita menggunakan NuxtLink
 </script>
 
 <template>
@@ -83,11 +86,13 @@ const editProfil = () => {
         <div class="mb-4">
           <p class="text-xs text-slate-400 mb-1">Masuk sebagai:</p>
           <p class="font-bold text-lg text-emerald-400 truncate">{{ authStore.user?.nama }}</p>
-          <button @click="editProfil" class="text-xs text-slate-300 hover:text-white hover:underline mt-1 flex items-center gap-1 transition focus:outline-none">
+          
+          <NuxtLink @click="window.innerWidth < 768 ? isSidebarOpen = false : null" to="/profil" class="text-xs text-slate-300 hover:text-white hover:underline mt-1 flex items-center gap-1 transition focus:outline-none">
             ✏️ Edit Profil & Sandi
-          </button>
+          </NuxtLink>
+          
         </div>
-        <button @click="prosesLogout" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-3 rounded-xl font-bold transition shadow-lg focus:outline-none">
+        <button @click="prosesLogout" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-3 rounded-xl font-bold transition shadow-lg focus:outline-none mt-2">
           🚪 Keluar
         </button>
       </div>
