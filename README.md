@@ -84,35 +84,36 @@ Follow these precise steps to deploy both core codebases on your local workspace
    ```bash
    npm install
    ```
-   ```
-   Configure environment keys (.env file configuration)
-   Create a .env file inside the kasir-backend folder and provide the following variables:
-   PORT=5000
-   MONGO_URI=mongodb://localhost:27017/db_kasir
-   JWT_SECRET=RAHASIA_NEGARA
-   ```
+   Configure environment keys (`.env` file configuration) <br> 
+   Create a `.env` file inside the kasir-backend folder and provide the following variables:
+<pre>
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/db_kasir
+</pre>
    
    ```bash
    npm start
    ```
-   
-   * Your API environment will run live at: http://localhost:5000
+   Your API environment will run live at: http://localhost:5000
 
 ### 3. Frontend Interface Setup
    Launch a parallel terminal directory path to activate the presentation layer application:
-   
+   ```bash
    cd kasir-frontend
+   ```
+   ```bash
    npm install
+   ```
+   ```bash
    npm run dev
-   
-   * Your point of sale user interface will be served instantly at: http://localhost:3000
+   ```
+   Your point of sale user interface will be served instantly at: http://localhost:3000
 
-------------------------------------------------------------------------
-📂 ARCHITECTURE FRAMEWORK BLUEPRINT
-------------------------------------------------------------------------
+---
+## 📂 ARCHITECTURE FRAMEWORK BLUEPRINT
 
 The overall program workspace uses a strict structural distribution ensuring cleaner cross-team readability:
-
+<pre>
 kasir-minuman/
 ├── kasir-backend/          # Backend Server Core API
 │   ├── controllers/        # Control Blocks processing incoming Request matrices (MVC)
@@ -126,15 +127,15 @@ kasir-minuman/
         ├── layouts/        # Root viewport wireframes (default.vue)
         ├── pages/          # Routing entry screens (index.vue, transaksi.vue, rekap.vue)
         └── stores/         # Pinia operational state layers (auth.js)
+</pre>
 
-------------------------------------------------------------------------
-👤 PROJECT MAINTAINER & CREDITS
-------------------------------------------------------------------------
+---
+## 👤 PROJECT MAINTAINER & CREDITS
 
 * Lead Software Engineer: Devanno Andhika Putra
 * Affiliation: Politeknik Indonusa Surakarta (POLINUS)  
-* Academic Program: Software Engineering Technology (Sarjana Terapan Sistem Informasi)
+* Academic Program: Software Engineering Technology (Sarjana Terapan Teknologi Rekayasa Perangkat Lunak)
 
-------------------------------------------------------------------------
+---
 Developed with passion for clean software design patterns. 💻☕
 ========================================================================
