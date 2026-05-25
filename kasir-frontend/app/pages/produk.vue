@@ -98,10 +98,10 @@ const hapusProduk = async (id) => {
       <CardMenu v-for="item in listProdukTampil" :key="item._id" :item="item">
         <div class="mt-auto grid grid-cols-2 gap-1 md:gap-2 pt-3">
           <button @click.stop="bukaModalUpdate(item)" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-bold py-1.5 md:py-2 rounded-lg transition text-[10px] md:text-sm flex items-center justify-center">
-            ✏️ <span class="hidden sm:inline ml-1">Edit</span>
+            <Icon name="bi:pencil-square" /> <span class="hidden sm:inline ml-1">Edit</span>
           </button>
           <button @click.stop="hapusProduk(item._id)" class="bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold py-1.5 md:py-2 rounded-lg transition text-[10px] md:text-sm flex items-center justify-center">
-            🗑️ <span class="hidden sm:inline ml-1">Hapus</span>
+            <Icon name="bi:trash-fill" /> <span class="hidden sm:inline ml-1">Hapus</span>
           </button>
         </div>
       </CardMenu>

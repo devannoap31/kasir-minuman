@@ -65,20 +65,20 @@ const prosesLogout = () => {
       </div>
       
       <nav class="space-y-2 flex flex-col px-6">
-        <NuxtLink @click="window.innerWidth < 768 ? isSidebarOpen = false : null" to="/" class="px-4 py-3 rounded-lg hover:bg-slate-800 transition font-medium" active-class="bg-amber-600 hover:bg-amber-600 text-white shadow-md">
-          📊 Dashboard
+        <NuxtLink @click="window.innerWidth < 768 ? isSidebarOpen = false : null" to="/" class="px-4 py-3 rounded-lg hover:bg-slate-800 transition font-medium flex items-center gap-3" active-class="bg-amber-600 hover:bg-amber-600 text-white shadow-md">
+          <Icon name="bi:grid-1x2-fill" class="text-xl" /> Dashboard
         </NuxtLink>
-        <NuxtLink @click="window.innerWidth < 768 ? isSidebarOpen = false : null" to="/transaksi" class="px-4 py-3 rounded-lg hover:bg-slate-800 transition font-medium" active-class="bg-amber-600 hover:bg-amber-600 text-white shadow-md">
-          🛒 Transaksi
+        <NuxtLink @click="window.innerWidth < 768 ? isSidebarOpen = false : null" to="/transaksi" class="px-4 py-3 rounded-lg hover:bg-slate-800 transition font-medium flex items-center gap-3" active-class="bg-amber-600 hover:bg-amber-600 text-white shadow-md">
+          <Icon name="bi:cart-fill" class="text-xl" /> Transaksi
         </NuxtLink>
-        <NuxtLink @click="window.innerWidth < 768 ? isSidebarOpen = false : null" to="/produk" class="px-4 py-3 rounded-lg hover:bg-slate-800 transition font-medium" active-class="bg-amber-600 hover:bg-amber-600 text-white shadow-md">
-          📦 Produk
+        <NuxtLink @click="window.innerWidth < 768 ? isSidebarOpen = false : null" to="/produk" class="px-4 py-3 rounded-lg hover:bg-slate-800 transition font-medium flex items-center gap-3" active-class="bg-amber-600 hover:bg-amber-600 text-white shadow-md">
+          <Icon name="bi:box-seam-fill" class="text-xl" /> Produk
         </NuxtLink>
-        <NuxtLink @click="window.innerWidth < 768 ? isSidebarOpen = false : null" to="/rekap" class="px-4 py-3 rounded-lg hover:bg-slate-800 transition font-medium" active-class="bg-amber-600 hover:bg-amber-600 text-white shadow-md">
-          📈 Rekap
+        <NuxtLink @click="window.innerWidth < 768 ? isSidebarOpen = false : null" to="/rekap" class="px-4 py-3 rounded-lg hover:bg-slate-800 transition font-medium flex items-center gap-3" active-class="bg-amber-600 hover:bg-amber-600 text-white shadow-md">
+          <Icon name="bi:graph-up-arrow" class="text-xl" /> Rekap
         </NuxtLink>
-        <NuxtLink @click="window.innerWidth < 768 ? isSidebarOpen = false : null" to="/user" class="px-4 py-3 rounded-lg hover:bg-slate-800 transition font-medium" active-class="bg-amber-600 hover:bg-amber-600 text-white shadow-md">
-          👥 User
+        <NuxtLink @click="window.innerWidth < 768 ? isSidebarOpen = false : null" to="/user" class="px-4 py-3 rounded-lg hover:bg-slate-800 transition font-medium flex items-center gap-3" active-class="bg-amber-600 hover:bg-amber-600 text-white shadow-md">
+          <Icon name="bi:people-fill" class="text-xl" /> User
         </NuxtLink>
       </nav>
       
@@ -87,13 +87,13 @@ const prosesLogout = () => {
           <p class="text-xs text-slate-400 mb-1">Masuk sebagai:</p>
           <p class="font-bold text-lg text-emerald-400 truncate">{{ authStore.user?.nama }}</p>
           
-          <NuxtLink @click="window.innerWidth < 768 ? isSidebarOpen = false : null" to="/profil" class="text-xs text-slate-300 hover:text-white hover:underline mt-1 flex items-center gap-1 transition focus:outline-none">
-            ✏️ Edit Profil & Sandi
+          <NuxtLink @click="window.innerWidth < 768 ? isSidebarOpen = false : null" to="/profil" class="text-xs text-slate-300 hover:text-white hover:underline mt-1 flex items-center gap-2 transition focus:outline-none">
+            <Icon name="bi:pencil-square" class="text-sm" /> Edit Profil & Sandi
           </NuxtLink>
           
         </div>
-        <button @click="prosesLogout" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-3 rounded-xl font-bold transition shadow-lg focus:outline-none mt-2">
-          🚪 Keluar
+        <button @click="prosesLogout" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-3 rounded-xl font-bold transition shadow-lg focus:outline-none mt-2 flex justify-center items-center gap-2">
+          <Icon name="bi:box-arrow-left" class="text-xl" /> Keluar
         </button>
       </div>
     </aside>

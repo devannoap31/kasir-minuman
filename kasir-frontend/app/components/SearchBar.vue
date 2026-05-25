@@ -13,6 +13,6 @@ defineEmits(['update:modelValue']);
       :placeholder="placeholder || 'Cari...'" 
       class="w-full border border-slate-300 rounded-xl py-2 px-4 focus:ring-2 focus:ring-amber-500 outline-none text-sm shadow-sm"
     >
-    <span class="absolute right-3 top-2 text-slate-400">🔍</span>
+    <Icon name="bi:search" class="absolute right-3 top-2.5 text-slate-400 text-lg" />
   </div>
 </template>

@@ -87,7 +87,9 @@ const omzetTertinggi = computed(() => {
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
         
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
-          <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-2xl shrink-0">💰</div>
+          <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-2xl shrink-0">
+            <Icon name="bi:cash-stack" class="text-emerald-500" />
+          </div>
           <div class="min-w-0">
             <p class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-0.5">Total Pendapatan</p>
             <p class="text-xl md:text-2xl font-black text-slate-800 truncate">Rp {{ totalPendapatan.toLocaleString('id-ID') }}</p>
@@ -95,7 +97,9 @@ const omzetTertinggi = computed(() => {
         </div>
 
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
-          <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-2xl shrink-0">📄</div>
+          <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-2xl shrink-0">
+            <Icon name="bi:receipt" class="text-amber-500" />
+          </div>
           <div class="min-w-0">
             <p class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-0.5">Total Transaksi</p>
             <p class="text-xl md:text-2xl font-black text-slate-800 truncate">{{ jumlahTransaksi }} Nota</p>
@@ -103,7 +107,9 @@ const omzetTertinggi = computed(() => {
         </div>
 
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-5 transition hover:shadow-md">
-          <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-2xl shrink-0">📊</div>
+          <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-2xl shrink-0">
+            <Icon name="bi:graph-up" class="text-indigo-500" />
+          </div>
           <div class="min-w-0">
             <p class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-0.5">Rata-rata Belanja</p>
             <p class="text-xl md:text-2xl font-black text-slate-800 truncate">Rp {{ Math.round(rataRataTransaksi).toLocaleString('id-ID') }}</p>
@@ -113,7 +119,7 @@ const omzetTertinggi = computed(() => {
       </div>
 
       <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-        <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">📈 Tren Omzet Penjualan Harian</h2>
+        <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2"><Icon name="bi:bar-chart-line-fill" /> Tren Omzet Penjualan Harian</h2>
         
         <div v-if="dataGrafik.length === 0" class="text-center py-10 text-slate-400 italic">Belum ada data grafik harian.</div>
         
@@ -140,7 +146,7 @@ const omzetTertinggi = computed(() => {
 
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
         <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-          <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">⏱️ 5 Transaksi Terakhir</h2>
+          <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2"><Icon name="bi:clock-history" /> 5 Transaksi Terakhir</h2>
           <NuxtLink to="/rekap" class="text-sm font-bold text-amber-600 hover:text-amber-700 hover:underline">Lihat Semua ➔</NuxtLink>
         </div>
 
@@ -163,7 +169,7 @@ const omzetTertinggi = computed(() => {
                 </td>
                 <td class="p-4">
                   <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold border border-emerald-200/50">
-                    👤 {{ t.nama_kasir }}
+                    <Icon name="bi:person-fill" /> {{ t.nama_kasir }}
                   </span>
                 </td>
                 <td class="p-4 text-slate-500 max-w-xs truncate">

@@ -67,7 +67,7 @@ const hapusUser = async (id, nama) => {
         <p class="text-slate-500 mt-1">Kelola akses pengguna sistem kasir (Semua pengguna adalah Admin).</p>
       </div>
       <button @click="showModal = true" class="bg-indigo-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-indigo-700 transition flex items-center gap-2 shadow-md shrink-0 w-full md:w-auto justify-center">
-        <span>+ Tambah Akun</span>
+        <span><Icon name="bi:person-plus-fill" class="mr-2"/> Tambah Akun</span>
       </button>
     </div>
 

@@ -23,7 +23,8 @@ const getUrlGambar = (namaFile) => {
     <div class="h-28 sm:h-36 bg-slate-100 relative">
       <img :src="getUrlGambar(item.gambar)" :class="['w-full h-full object-cover', !item.ketersediaan ? 'grayscale' : '']">
       
-      <div :class="['absolute top-2 right-2 px-2 py-0.5 md:px-3 md:py-1 text-[10px] md:text-xs font-bold rounded-full shadow-sm', item.ketersediaan ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-500 text-white']">
+      <div :class="['absolute top-2 right-2 px-2 py-0.5 md:px-3 md:py-1 text-[10px] md:text-xs font-bold rounded-full shadow-sm flex items-center gap-1', item.ketersediaan ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-500 text-white']">
+        <Icon :name="item.ketersediaan ? 'bi:check-circle-fill' : 'bi:x-circle-fill'" />
         {{ item.ketersediaan ? 'Tersedia' : 'Habis' }}
       </div>
 

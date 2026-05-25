@@ -1,13 +1,12 @@
 <script setup>
-import { onMounted, ref, computed, nextTick } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 
 const config = useRuntimeConfig();
 
 const listTransaksi = ref([]);
 const pending = ref(true);
 const filterWaktu = ref('semua');
-const isGeneratingPDF = ref(false); // State baru untuk efek loading tombol
-const showKopSurat = ref(false); // State untuk memunculkan kop surat saat dicapture PDF
+const isGeneratingPDF = ref(false);
 
 const ambilDataTransaksi = async () => {
   pending.value = true;
@@ -45,39 +44,77 @@ const labelFilter = computed(() => {
   return labels[filterWaktu.value];
 });
 
-// --- FUNGSI DOWNLOAD FILE PDF LANGSUNG ---
+// --- FUNGSI DOWNLOAD MENGGUNAKAN JSPDF AUTOTABLE ---
 const unduhPDF = async () => {
   isGeneratingPDF.value = true;
-  showKopSurat.value = true; // Munculkan kop surat ke layar
-
-  // Tunggu Vue merender kop surat ke layar (sangat cepat, tidak terlihat mata)
-  await nextTick();
 
   try {
-    // Import library secara dinamis (wajib untuk Nuxt 3 agar tidak error SSR)
-    const html2pdf = (await import('html2pdf.js')).default;
-    
-    // Ambil elemen HTML yang mau dijadikan PDF
-    const element = document.getElementById('area-laporan');
-    
-    // Pengaturan PDF (Ukuran Kertas, Margin, Kualitas Resolusi)
-    const opt = {
-      margin:       0.4,
-      filename:     `Laporan_Kasir_${labelFilter.value.replace(/ /g, '_')}.pdf`,
-      image:        { type: 'jpeg', quality: 1 },
-      html2canvas:  { scale: 2, useCORS: true }, // Scale 2 agar teksnya tajam (tidak buram)
-      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
+    // Import dinamis untuk menghindari error SSR di Nuxt
+    const { jsPDF } = await import('jspdf');
+    const autoTable = (await import('jspdf-autotable')).default;
 
-    // Eksekusi pembuatan dan download file PDF
-    await html2pdf().set(opt).from(element).save();
+    // Buat dokumen PDF baru (A4, orientasi Portrait)
+    const doc = new jsPDF('p', 'pt', 'a4');
+
+    // --- MENGGAMBAR KOP SURAT ---
+    doc.setFontSize(22);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(30, 41, 59); // Warna Slate-800
+    doc.text('KASIR PINTAR', 40, 50);
     
+    doc.setFontSize(14);
+    doc.setTextColor(71, 85, 105);
+    doc.text('Laporan Rekapitulasi Transaksi', 40, 70);
+
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Periode: ${labelFilter.value} | Dicetak: ${new Date().toLocaleString('id-ID')}`, 40, 85);
+
+    // --- MENGGAMBAR KOTAK RINGKASAN ---
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Total Transaksi: ${transaksiTerfilter.value.length} Nota`, 40, 110);
+    doc.text(`Total Omzet: Rp ${totalPendapatan.value.toLocaleString('id-ID')}`, 40, 125);
+
+    // --- MENYIAPKAN DATA TABEL ---
+    const tableColumn = ["Tanggal & Waktu", "Pencatat (Kasir)", "Rincian Item", "Total Bayar"];
+    const tableRows = [];
+
+    transaksiTerfilter.value.forEach(t => {
+      const tanggal = new Date(t.createdAt).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' });
+      const kasir = t.nama_kasir;
+      
+      // Menggabungkan array pesanan menjadi string dengan baris baru (enter)
+      const rincian = t.pesanan.map(p => `• ${p.nama_produk} (${p.jumlah}x)`).join('\n');
+      
+      const total = `Rp ${t.total_harga.toLocaleString('id-ID')}`;
+
+      tableRows.push([tanggal, kasir, rincian, total]);
+    });
+
+    // --- MENGGAMBAR TABEL ---
+    autoTable(doc, {
+      startY: 145,
+      head: [tableColumn],
+      body: tableRows,
+      theme: 'grid',
+      headStyles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontStyle: 'bold' }, // Warna header tabel
+      styles: { fontSize: 9, cellPadding: 6, valign: 'middle' },
+      columnStyles: {
+        0: { cellWidth: 90 }, // Lebar kolom tanggal
+        1: { cellWidth: 90 }, // Lebar kolom kasir
+        2: { cellWidth: 'auto' }, // Kolom rincian menyesuaikan sisa ruang
+        3: { cellWidth: 90, halign: 'right', fontStyle: 'bold' } // Kolom total rata kanan
+      },
+    });
+
+    // --- SIMPAN FILE ---
+    doc.save(`Laporan_Kasir_${labelFilter.value.replace(/ /g, '_')}.pdf`);
+
   } catch (error) {
     alert("Gagal membuat PDF!");
     console.error(error);
   } finally {
-    showKopSurat.value = false; // Sembunyikan kop surat lagi
-    isGeneratingPDF.value = false; // Matikan efek loading
+    isGeneratingPDF.value = false;
   }
 };
 </script>
@@ -105,20 +142,18 @@ const unduhPDF = async () => {
           :disabled="transaksiTerfilter.length === 0 || isGeneratingPDF"
           class="bg-slate-800 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-slate-900 transition flex items-center justify-center gap-2 shadow-md disabled:bg-slate-300 disabled:cursor-not-allowed shrink-0 min-w-[160px]"
         >
-          <span v-if="isGeneratingPDF">⏳ Memproses...</span>
-          <span v-else>⬇️ Unduh PDF</span>
+          <span v-if="isGeneratingPDF" class="flex items-center gap-2">
+            <Icon name="bi:arrow-repeat" class="animate-spin text-lg" /> Memproses...
+          </span>
+          <span v-else class="flex items-center gap-2">
+            <Icon name="bi:file-earmark-pdf-fill" class="text-lg" /> Unduh PDF
+          </span>
         </button>
       </div>
     </div>
 
-    <div id="area-laporan" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
       
-      <div v-show="showKopSurat" class="mb-8 border-b-2 border-slate-800 pb-4">
-        <h1 class="text-3xl font-black text-slate-900 uppercase tracking-widest">KASIR PINTAR</h1>
-        <h2 class="text-xl font-bold text-slate-700 mt-1">Laporan Rekapitulasi Transaksi</h2>
-        <p class="text-slate-500 mt-1 font-medium">Periode: {{ labelFilter }} | Dicetak pada: {{ new Date().toLocaleString('id-ID') }}</p>
-      </div>
-
       <div v-if="pending" class="text-center py-20 text-slate-500 animate-pulse">Memuat data transaksi...</div>
       
       <div v-else-if="transaksiTerfilter.length === 0" class="text-center py-20 text-slate-400 italic border-2 border-dashed border-slate-200 rounded-xl">
@@ -154,7 +189,7 @@ const unduhPDF = async () => {
                 </td>
                 <td class="p-4">
                   <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 text-slate-700 rounded-lg font-semibold border border-slate-200">
-                    👤 {{ t.nama_kasir }}
+                    <Icon name="bi:person-check-fill" /> {{ t.nama_kasir }}
                   </span>
                 </td>
                 <td class="p-4 text-slate-500 py-3">

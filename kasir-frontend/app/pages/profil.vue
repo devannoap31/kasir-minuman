@@ -89,7 +89,9 @@ const gantiPassword = async () => {
   <div class="p-4 md:p-8 min-h-screen bg-slate-50 flex flex-col items-center">
     
     <div class="w-full max-w-5xl bg-slate-900 rounded-2xl shadow-lg p-8 flex items-center gap-6 mb-8 mt-2">
-      <div class="w-20 h-20 rounded-full bg-amber-500 flex items-center justify-center text-4xl shadow-lg border-4 border-slate-800 shrink-0">👤</div>
+      <div class="w-20 h-20 rounded-full bg-amber-500 flex items-center justify-center text-4xl shadow-lg border-4 border-slate-800 shrink-0">
+        <Icon name="bi:person-bounding-box" class="text-amber-100" />
+      </div>
       <div>
         <h1 class="text-2xl md:text-3xl font-black text-white tracking-wide">{{ authStore.user?.nama }}</h1>
         <p class="text-slate-400 font-medium mt-1 md:text-lg">@{{ authStore.user?.username }} &nbsp;•&nbsp; <span class="bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-md text-xs border border-indigo-500/30 uppercase font-bold">{{ authStore.user?.role }}</span></p>
@@ -99,7 +101,7 @@ const gantiPassword = async () => {
     <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-8">
       
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 h-fit">
-        <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">📝 Informasi Dasar</h2>
+        <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2"><Icon name="bi:card-text" /> Informasi Dasar</h2>
         
         <form @submit.prevent="simpanProfil" class="space-y-5">
           <div>
@@ -123,7 +125,7 @@ const gantiPassword = async () => {
       </div>
 
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 h-fit">
-        <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">🔒 Keamanan Akun</h2>
+        <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2"><Icon name="bi:shield-lock-fill" /> Keamanan Akun</h2>
         
         <form @submit.prevent="gantiPassword" class="space-y-5">
           <div>

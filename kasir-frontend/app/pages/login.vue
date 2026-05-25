@@ -54,13 +54,13 @@ const prosesLogin = async () => {
           <div>
             <label class="block text-slate-700 font-bold mb-2 text-sm">Username</label>
             <div class="relative">
-              <span class="absolute left-3 top-3 text-slate-400">👤</span>
+              <Icon name="bi:person-fill" class="absolute left-4 top-3.5 text-slate-400 text-lg" />
               <input 
                 v-model="formLogin.username" 
                 type="text" 
                 required 
                 placeholder="Masukkan username..." 
-                class="w-full border-2 border-slate-200 rounded-xl py-2.5 pl-10 pr-4 focus:border-amber-500 focus:ring-0 outline-none transition font-medium text-slate-700"
+                class="w-full border-2 border-slate-200 rounded-xl py-2.5 pl-11 pr-4 focus:border-amber-500 focus:ring-0 outline-none transition font-medium text-slate-700"
               >
             </div>
           </div>
@@ -68,13 +68,13 @@ const prosesLogin = async () => {
           <div>
             <label class="block text-slate-700 font-bold mb-2 text-sm">Password</label>
             <div class="relative">
-              <span class="absolute left-3 top-3 text-slate-400">🔒</span>
+              <Icon name="bi:lock-fill" class="absolute left-4 top-3.5 text-slate-400 text-lg" />
               <input 
                 v-model="formLogin.password" 
                 type="password" 
                 required 
                 placeholder="Masukkan kata sandi..." 
-                class="w-full border-2 border-slate-200 rounded-xl py-2.5 pl-10 pr-4 focus:border-amber-500 focus:ring-0 outline-none transition font-medium text-slate-700"
+                class="w-full border-2 border-slate-200 rounded-xl py-2.5 pl-11 pr-4 focus:border-amber-500 focus:ring-0 outline-none transition font-medium text-slate-700"
               >
             </div>
           </div>
@@ -86,9 +86,14 @@ const prosesLogin = async () => {
           <button 
             type="submit" 
             :disabled="isLoading"
-            class="w-full bg-amber-600 text-white font-bold py-3.5 rounded-xl hover:bg-amber-700 transition shadow-lg mt-4 disabled:bg-slate-300 disabled:cursor-not-allowed"
+            class="w-full bg-amber-600 text-white font-bold py-3.5 rounded-xl hover:bg-amber-700 transition shadow-lg mt-4 disabled:bg-slate-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {{ isLoading ? '⏳ Memeriksa...' : 'Masuk ke Sistem ➔' }}
+            <span v-if="isLoading" class="flex items-center gap-2">
+              <Icon name="bi:arrow-repeat" class="animate-spin text-xl" /> Memeriksa...
+            </span>
+            <span v-else class="flex items-center gap-2">
+              Masuk ke Sistem <Icon name="bi:arrow-right-circle-fill" class="text-xl" />
+            </span>
           </button>
           
         </form>
